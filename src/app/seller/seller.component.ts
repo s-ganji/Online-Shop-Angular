@@ -23,18 +23,7 @@ export class SellerComponent implements OnInit {
     this.sellers = this.s_service.GetAllData();
   }
 
-  rowInserting (e:any){
-    const isCanceled = new Promise((resolve,reject)=>{
-      var id: number = +e.data["id"];
-      !isString(e.data["id"]) && this.s_service.GetData(id) == null?resolve(false):resolve(true);
-    });
-    e.cancel = isCanceled;
-  }
 
-  rowInserted (e:any){
-    this.s_service.SetData(e.data["name"], e.data["id"]);
-    alert("row is inserted successfully!")
-  }
 
   updateRow(e:any) {
     const isCanceled = new Promise((resolve, reject) => {
@@ -53,9 +42,9 @@ export class SellerComponent implements OnInit {
 
   rowRemoving(e:any) {
     const isCanceled = new Promise((resolve, reject) => {
-      this.sp_service.GetAllData().forEach(function (obj:any){
-        obj.p_id.includes(e.data["id"])? resolve(true):resolve(false);
-      });
+      // this.sp_service.GetAllData().forEach(function (obj:any){
+      //   obj.p_id.includes(e.data["id"])? resolve(true):resolve(false);
+      // });
       resolve(false);
     });
     e.cancel = isCanceled;
@@ -66,17 +55,17 @@ export class SellerComponent implements OnInit {
     alert(message)
   }
 
-  initNewRow(e:any) {
-    e.data["id"] = this.getDefaultData();
-  }
-  getDefaultData(){
-    var max_index=0;
-    for(let i=0; i<localStorage.length;i++){
-      if(this.s_service.GetData(i))
-        max_index = i;
-    }
-    return max_index+1;
-
-  }
+  // initNewRow(e:any) {
+  //   e.data["id"] = this.getDefaultData();
+  // }
+  // getDefaultData(){
+  //   var max_index=0;
+  //   for(let i=0; i<localStorage.length;i++){
+  //     if(this.s_service.GetData(i))
+  //       max_index = i;
+  //   }
+  //   return max_index+1;
+  //
+  // }
 
 }

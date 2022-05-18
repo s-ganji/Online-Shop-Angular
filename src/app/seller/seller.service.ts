@@ -5,37 +5,47 @@
 export class SellerService{
 
   SetData(n:string, i:number){
-    // alert(n);
-    // alert(i);
-    // let seller1 = new Seller(n,i);
-    // let jsonData = JSON.stringify(seller1);
-    // let sellers:any = new Array();
-    // if(i != 1)
-    //   sellers = localStorage.getItem("sellers");
-    // alert(sellers);
-    // alert(jsonData);
-    // sellers = sellers.push(jsonData);
-    // alert(JSON.stringify(sellers[0]))
-    // localStorage.setItem("sellers", sellers);
-  }
 
-  GetAllData():Seller[]{
-    let sellers: any=[];
-    for(let i=1; i<=localStorage.length;i++){
-      sellers[i] = JSON.parse(<string>localStorage.getItem("seller_"+i));
+    let seller1 = new Seller(n,i);
+    let sellers:any;
+    if(i != 1) {
+      sellers = JSON.parse(<string>localStorage.getItem("sellers"));
+    }
+    else {
+      sellers = new Array();
     }
 
+    sellers.push(seller1);
+    let jsonData = JSON.stringify(sellers);
+
+    // alert(JSON.stringify(sellers[0]))
+    localStorage.setItem("sellers", jsonData);
+  }
+
+  GetAllData():any[]{
+    let sellers: any=[];
+    sellers = JSON.parse(<string>localStorage.getItem("sellers"));
     return sellers;
   }
 
-  GetData(i:any):Seller{
+  GetData(i:any):any{
     let seller: any;
-    seller = JSON.parse(<string>localStorage.getItem("seller_"+i));
+    seller = JSON.parse(<string>localStorage.getItem("sellers"))[i];
     return seller;
   }
 
-  RemoveData(p:any):string{
-    localStorage.removeItem("seller_"+p);
+  RemoveData(i:any):string{
+    let sellers:any;
+    sellers = this.GetAllData();
+    sellers.forEach((element:any,index:any)=>{
+      if(element.id== i) sellers.splice(index,1);
+    });
+      sellers.forEach(function (s:any){
+        if (s.id > i)
+          s.id = s.id - 1;
+      })
+    let jsonData = JSON.stringify(sellers);
+    localStorage.setItem("sellers",jsonData);
     return "The row is deleted from local storage!"
   }
 
@@ -48,8 +58,6 @@ export class SellerService{
     return 0;
 
   }
-  UpdateData(n:string,id:any){
-    this.SetData(n, id);
-  }
+
 
 }

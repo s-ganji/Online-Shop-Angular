@@ -38,12 +38,15 @@ export class AdminComponent implements OnInit {
     this.u_service.SetData(e.data["user_id"],e.data["username"], e.data["password"],e.data['roles'],e.data['isApproved'],e.data["isLoggedIn"])
     if(e.data['roles'].includes(1))
     {
-      var max_index=0;
-      for(let i=0; i<localStorage.length;i++){
-        if(this.s_service.GetData(i))
-          max_index = i;
+      let sellers = this.s_service.GetAllData();
+      alert(sellers);
+      if(sellers !=null) {
+        if (sellers.length == 0)
+          this.s_service.SetData(e.data["username"], 1);
+        this.s_service.SetData(e.data["username"], sellers[sellers.length - 1].id + 1);
       }
-      this.s_service.SetData(e.data["username"],max_index+1);
+      else
+        this.s_service.SetData(e.data["username"],1);
 
     }
     alert("The row is updated successfully!")
