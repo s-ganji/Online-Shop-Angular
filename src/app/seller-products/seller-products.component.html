@@ -1,0 +1,76 @@
+<dx-data-grid id="dataGrid"
+              [dataSource]="seller_products"
+              [showBorders] = "true"
+              [showRowLines] = "true"
+
+              (onInitNewRow)="initNewRow($event)"
+              (onRowInserting)="rowInserting($event)"
+              (onRowInserted)="rowInserted($event)"
+
+              (onRowUpdating)="updateRow($event)"
+              (onRowUpdated)="updatedRow($event)"
+
+              (onRowRemoving)="rowRemoving($event)"
+
+>
+  <dxi-column dataField="s_id"
+  >
+    <dxo-lookup [dataSource]="sellers" displayExpr="name" valueExpr="id">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="p_id"
+              editCellTemplate="tagBoxEditor"
+              cellTemplate = "cellTemplate"
+
+
+  >
+  </dxi-column>
+
+
+
+  <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
+    <dx-tag-box
+      [dataSource]="products"
+      [value] = cellInfo.value
+      displayExpr="Name"
+      valueExpr="id"
+      [showSelectionControls]="true"
+      [maxDisplayedTags]="3"
+      [showMultiTagOnly]="false"
+      applyValueMode="useButtons"
+      [searchEnabled]="true"
+      (onValueChanged)="cellInfo.setValue($event.value)"
+      >
+    </dx-tag-box>
+  </div>
+
+  <div *dxTemplate="let cellInfo of 'cellTemplate'">
+    <dx-tag-box
+      [dataSource]="products"
+      [value] = cellInfo.value
+      displayExpr="Name"
+      valueExpr="id"
+      [showSelectionControls]="true"
+      [maxDisplayedTags]="3"
+      [showMultiTagOnly]="false"
+      applyValueMode="useButtons"
+      [searchEnabled]="true"
+      (onValueChanged)="cellInfo.setValue($event.value)"
+    >
+    </dx-tag-box>
+  </div>
+
+
+  <dxo-editing
+    [allowUpdating]="true"
+    [allowAdding]="true"
+    [allowDeleting]="true"
+    mode="popup">
+  </dxo-editing>
+
+  <dxo-paging [enabled]="true" [pageSize]="15"></dxo-paging>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-search-panel [visible]="true"></dxo-search-panel>
+  <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="true"></dxo-editing>
+</dx-data-grid>
+<li><a routerLink="/logged_in">back</a></li>

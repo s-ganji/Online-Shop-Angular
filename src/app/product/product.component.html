@@ -1,0 +1,23 @@
+<dx-data-grid id="dataGrid"
+              [dataSource]="products"
+              [allowColumnReordering]="true"
+              [showBorders] = "true"
+              [showRowLines] = "true"
+
+
+
+
+>
+
+
+  <!--  (onRowRemoved)="rowRemoved($event)"-->
+  <dxi-column dataField="name"></dxi-column>
+  <dxi-column dataField="id">
+    <!--    [allowEditing]="false"-->
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+  </dxi-column>
+
+
+</dx-data-grid>
+
+<li><a routerLink="/logged_in">back</a></li>

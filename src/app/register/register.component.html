@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>Sign Up Form</h2>
+  <form role="form" [formGroup]="formdata" (ngSubmit)="onClickSubmit(formdata.value)">
+
+    <input class="form_group" type="text" name="fname" placeholder="Username" formControlName = "userName" required>
+
+    <input class = "for_group" type="password" name="pwd" placeholder="password" formControlName = "passWord" required>
+
+
+
+<!--    <input class="form_group" type="radio"  name="buyer" id="buyer" value="buyer_role" formControlName = "buyer_check">-->
+<!--    <label for="buyer"> Buyer</label><br>-->
+
+<!--    <input class="form_group" type="radio" name="seller" id="seller" value="seller_role" formControlName = "seller_check">-->
+<!--    <label for="seller"> Seller</label><br>-->
+
+    <button class="form_group" type="submit">Sign Up</button>
+
+  </form>
+</div>
+<li><a routerLink="/main_page">back</a></li>

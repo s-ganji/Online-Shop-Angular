@@ -1,0 +1,106 @@
+<dx-data-grid id="dataGrid"
+              [dataSource]="users"
+              [showBorders] = "true"
+              [showRowLines] = "true"
+
+              (onRowUpdating)="updateRow($event)"
+              (onRowUpdated)="updatedRow($event)"
+
+
+>
+  <dxi-column dataField="user_id"
+              caption="User ID"
+              [allowEditing]="false"
+  >
+  </dxi-column>
+
+  <dxi-column dataField="username"
+              caption="Username"
+              [allowEditing]="false"
+  >
+  </dxi-column>
+
+  <dxi-column dataField="password"
+              caption="Password"
+              [allowEditing]="false"
+  >
+  </dxi-column>
+
+  <dxi-column dataField="roles"
+              editCellTemplate="tagBoxEditor"
+              cellTemplate = "cellTemplate"
+
+  >
+  </dxi-column>
+
+  <dxi-column dataField="isApproved"
+              editCellTemplate="checkBoxEditor"
+              cellTemplate = "cellTemplate2"
+
+  >
+  </dxi-column>
+
+  <dxi-column dataField="isLoggedIn"
+              caption="isLoggedIn"
+              [allowEditing]="false"
+  >
+  </dxi-column>
+
+  <div *dxTemplate="let cellInfo of 'checkBoxEditor'">
+    <dx-check-box
+      [value]=cellInfo.value
+      (onValueChanged)="cellInfo.setValue($event.value)"
+    >
+    </dx-check-box>
+  </div>
+
+  <div *dxTemplate="let cellInfo of 'cellTemplate2'">
+    <dx-check-box
+      [value]=cellInfo.value
+    >
+    </dx-check-box>
+  </div>
+
+  <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
+    <dx-tag-box
+      [dataSource]="roles"
+      [value] = cellInfo.value
+      displayExpr="name"
+      valueExpr="id"
+      [showSelectionControls]="true"
+      [showMultiTagOnly]="false"
+      applyValueMode="useButtons"
+      [searchEnabled]="true"
+      (onValueChanged)="cellInfo.setValue($event.value)"
+    >
+    </dx-tag-box>
+  </div>
+
+  <div *dxTemplate="let cellInfo of 'cellTemplate'">
+    <dx-tag-box
+      [dataSource]="roles"
+      [value] = cellInfo.value
+      displayExpr="name"
+      valueExpr="id"
+      [showSelectionControls]="true"
+      [showMultiTagOnly]="false"
+      applyValueMode="useButtons"
+      [searchEnabled]="true"
+      (onValueChanged)="cellInfo.setValue($event.value)"
+    >
+    </dx-tag-box>
+  </div>
+
+
+
+  <dxo-editing
+    [allowUpdating]="true"
+    mode="cell"
+    >
+  </dxo-editing>
+
+  <dxo-paging [enabled]="true" [pageSize]="15"></dxo-paging>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-search-panel [visible]="true"></dxo-search-panel>
+</dx-data-grid>
+<li><a routerLink="/logged_in">back</a></li>

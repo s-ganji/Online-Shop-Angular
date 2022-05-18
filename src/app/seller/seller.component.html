@@ -1,0 +1,32 @@
+<dx-data-grid id="dataGrid"
+              [dataSource]="sellers"
+              [allowColumnReordering]="true"
+              [showBorders] = "true"
+              [showRowLines] = "true"
+
+              (onRowInserting)="rowInserting($event)"
+              (onRowInserted)="rowInserted($event)"
+
+              (onRowUpdating)="updateRow($event)"
+              (onRowUpdated)="updatedRow($event)"
+
+              (onRowRemoving)="rowRemoving($event)"
+
+              (onInitNewRow)="initNewRow($event)"
+              (onRowRemoved)="rowRemoved($event)"
+
+>
+  <!--  (onRowRemoved)="rowRemoved($event)"-->
+  <dxi-column dataField="name"></dxi-column>
+  <dxi-column dataField="id" >
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+  </dxi-column>
+
+  <dxo-editing
+    [allowUpdating]="true"
+    [allowAdding]="true"
+    [allowDeleting]="true"
+    mode="popup">
+  </dxo-editing>
+</dx-data-grid>
+<li><a routerLink="/logged_in">back</a></li>
