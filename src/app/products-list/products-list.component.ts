@@ -5,6 +5,8 @@ import {SellerProductsService} from "../seller-products/seller-products.service"
 import {AuthService} from "../auth.service";
 import {SellerService} from "../seller/seller.service";
 import {RegisterService} from "../register/register.service";
+import DevExpress from "devextreme";
+import alert = DevExpress.ui.dialog.alert;
 
 @Component({
   selector: 'app-products-list',
@@ -38,6 +40,7 @@ export class ProductsListComponent implements OnInit {
     //
     this.AllProducts = this.service.GetAllData();
     this.seller_products = this.sp_service.GetAllData();
+    if(this.seller_products != null)
     for (let i=0; i< this.seller_products.length;i++){
       let obj: any;
       obj = this.seller_products[i];
@@ -52,6 +55,9 @@ export class ProductsListComponent implements OnInit {
             }
          }
       }
+    else
+      this.products = [];
+
     }
 
   keyDown(e:any) {
@@ -72,13 +78,15 @@ export class ProductsListComponent implements OnInit {
   rowInserted (e:any){
     this.seller_id = this.s_service.getID(this.authService.user_name);
     this.service.SetData(e.data["name"], e.data["id"], e.data["num"], e.data["price"]);
-    let sp = this.sp_service.GetData(this.seller_id);
+    let sps = this.sp_service.GetAllData();
+      // this.sp_service.GetData(this.seller_id);
     let ar = new Array();
 
-    if(sp != undefined){
-      ar = sp.p_id;
+    if(sps != null){
+      ar = sps[this.seller_id-1].p_id;
       ar.push(e.data["id"]);
-      this.sp_service.SetData(this.seller_id,this.seller_id,ar);
+      sps[this.seller_id-1].p_id = ar;
+      this.sp_service.UpdateData(this.seller_id-1,sps[this.seller_id-1]);
     }
     else
     {
@@ -86,7 +94,6 @@ export class ProductsListComponent implements OnInit {
       this.sp_service.SetData(this.seller_id,this.seller_id,ar)
 
     }
-    alert("row is inserted successfully!")
   }
 
 
@@ -104,7 +111,6 @@ export class ProductsListComponent implements OnInit {
 
   updatedRow(e:any){
     this.service.SetData(e.data["name"], e.data["id"],e.data["num"],e.data["price"]);
-    alert("The row is updated successfully!");
   }
 
   rowRemoving(e:any) {
@@ -120,17 +126,26 @@ export class ProductsListComponent implements OnInit {
   rowRemoved(e:any) {
     this.seller_id = this.s_service.getID(this.authService.user_name);
     let message;
+    let sps = this.sp_service.GetAllData();
     let ar = new Array();
-    let obj:any;
-    obj = this.sp_service.GetData(this.seller_id);
-    ar = obj.p_id;
-    ar.forEach((element,index)=>{
-      if(element==e.data["id"]) ar.splice(index,1);
-    });
+    if(sps != null){
+      // console.log("wwwww");
+      ar = sps[this.seller_id-1].p_id;
+      ar.forEach((element,index)=>{
+        if(element==e.data["id"]) ar.splice(index,1);
+      });
+      if(ar.length == 0){
+        this.sp_service.RemoveData(this.seller_id);
+      }
+      else{
+        sps[this.seller_id-1].p_id = ar;
+        this.sp_service.UpdateData(this.seller_id-1,sps);
+      }
 
-    this.sp_service.SetData(obj.sp_id,obj.s_id,ar);
+
+    }
     message = this.service.RemoveData(e.data["id"]);
-    alert(message);
+
 
   }
 

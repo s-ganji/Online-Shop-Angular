@@ -38,9 +38,6 @@ export class SellerProductsComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-
-
     this.seller_products = this.sp_service.GetAllData();
 
     for (let i = 0; i < this.p_service.GetAllData().length; i++) {

@@ -26,6 +26,14 @@ export class AdminComponent implements OnInit {
   updateRow(e:any) {
     const isCanceled = new Promise((resolve, reject) => {
       if (confirm ("Do you want to save changes?") == true) {
+        if(e.newData['roles'] !=undefined)
+        {
+          if(!e.newData['roles'].includes(1))
+          {
+            this.s_service.RemoveData(e.oldData["user_id"]);
+          }
+
+        }
         resolve(false)
         // e.newData["id"]? resolve(true):resolve(false);
       }
@@ -40,7 +48,7 @@ export class AdminComponent implements OnInit {
     {
       let sellers = this.s_service.GetAllData();
       alert(sellers);
-      if(sellers !=null) {
+      if(sellers != null) {
         if (sellers.length == 0)
           this.s_service.SetData(e.data["username"], 1);
         this.s_service.SetData(e.data["username"], sellers[sellers.length - 1].id + 1);
