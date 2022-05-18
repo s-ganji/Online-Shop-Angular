@@ -22,10 +22,12 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { AdminComponent } from './admin/admin.component';
 import { RegisterComponent } from './register/register.component';
 import {RegisterService} from "./register/register.service";
-import { DxCheckBoxModule } from 'devextreme-angular';
+import {DxCheckBoxModule } from 'devextreme-angular';
 import {LoggedInComponent} from "./logged_in/logged-in.component";
 import { MainPageComponent } from './main-page/main-page.component';
 import { ProductsListComponent } from './products-list/products-list.component';
+
+
 
 @NgModule({
   declarations: [

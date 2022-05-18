@@ -7,6 +7,7 @@ import {SellerService} from "../seller/seller.service";
 import {RegisterService} from "../register/register.service";
 import DevExpress from "devextreme";
 import alert = DevExpress.ui.dialog.alert;
+import Tooltip from "devextreme/ui/tooltip";
 
 @Component({
   selector: 'app-products-list',
@@ -76,6 +77,8 @@ export class ProductsListComponent implements OnInit {
   }
 
   rowInserted (e:any){
+
+
     this.seller_id = this.s_service.getID(this.authService.user_name);
     this.service.SetData(e.data["name"], e.data["id"], e.data["num"], e.data["price"]);
     let sps = this.sp_service.GetAllData();
@@ -129,8 +132,8 @@ export class ProductsListComponent implements OnInit {
     let sps = this.sp_service.GetAllData();
     let ar = new Array();
     if(sps != null){
-      // console.log("wwwww");
-      ar = sps[this.seller_id-1].p_id;
+      // alert("ssssssss","");
+      // ar = sps[this.seller_id-1].p_id;
       ar.forEach((element,index)=>{
         if(element==e.data["id"]) ar.splice(index,1);
       });
