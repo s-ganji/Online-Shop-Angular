@@ -11,11 +11,15 @@
 
 
   <!--  (onRowRemoved)="rowRemoved($event)"-->
-  <dxi-column dataField="name"></dxi-column>
-  <dxi-column dataField="id">
+  <dxi-column dataField="id" caption="Product ID">
     <!--    [allowEditing]="false"-->
     <dxi-validation-rule type="required"></dxi-validation-rule>
   </dxi-column>
+  <dxi-column dataField="name" caption="Product Name"></dxi-column>
+
+  <dxi-column dataField="num" caption="number"></dxi-column>
+  <dxi-column dataField="price" caption="price"></dxi-column>
+
 
 
 </dx-data-grid>

@@ -52,7 +52,7 @@ export class SellerProductsService {
     let sps:any;
     sps = this.GetAllData();
     sps.forEach((element:any,index:any)=>{
-      if(element.id == i) sps.splice(index,1);
+      if(element.sp_id == i) sps.splice(index,1);
     });
     sps.forEach(function (s:any){
       if (s.id > i)
@@ -65,7 +65,6 @@ export class SellerProductsService {
   UpdateData(i:any, spNew:any){
     let sps:any;
     sps = this.GetAllData();
-    delete sps[i];
     sps[i] = spNew;
     let jsonData = JSON.stringify(sps);
     localStorage.setItem("sp",jsonData);

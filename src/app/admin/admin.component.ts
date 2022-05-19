@@ -30,7 +30,7 @@ export class AdminComponent implements OnInit {
         {
           if(!e.newData['roles'].includes(1))
           {
-            this.s_service.RemoveData(e.oldData["user_id"]);
+            this.s_service.RemoveData(this.s_service.getID(e.oldData["username"]));
           }
 
         }
@@ -43,15 +43,24 @@ export class AdminComponent implements OnInit {
   }
 
   updatedRow(e:any){
-    this.u_service.SetData(e.data["user_id"],e.data["username"], e.data["password"],e.data['roles'],e.data['isApproved'],e.data["isLoggedIn"])
+    let users = this.u_service.GetAllData();
+    if (users !=null && users.length != 0 ){
+      users[e.data["user_id"]-1].username = e.data["username"];
+      users[e.data["user_id"]-1].upassword = e.data["password"];
+      users[e.data["user_id"]-1].roles = e.data["roles"];
+      users[e.data["user_id"]-1].isApproved = e.data["isApproved"];
+      users[e.data["user_id"]-1].isLoggedIn = e.data["isLoggedIn"];
+      this.u_service.UpdateData(e.data["user_id"]-1,  users[e.data["user_id"]-1]);
+    }
     if(e.data['roles'].includes(1))
     {
       let sellers = this.s_service.GetAllData();
-      alert(sellers);
+      // alert(sellers);
       if(sellers != null) {
         if (sellers.length == 0)
           this.s_service.SetData(e.data["username"], 1);
-        this.s_service.SetData(e.data["username"], sellers[sellers.length - 1].id + 1);
+        else
+          this.s_service.SetData(e.data["username"], sellers[sellers.length - 1].id + 1);
       }
       else
         this.s_service.SetData(e.data["username"],1);

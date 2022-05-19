@@ -25,17 +25,14 @@ export class ProductsGuard implements CanActivate {
 
   checkLogin(url: string): true | UrlTree {
     this.users = this.u_service.GetAllData();
-    for (let i = 0; i < this.users.length; i++) {
-      let obj: any;
-      obj = this.users[i]
-      if (obj != undefined) {
-        if (obj.isLoggedIn == "true" && obj.roles.includes(2)) {
-          alert("11111");
-          if (url == "/logged_in")
-            this.router.parseUrl('/products');
-            this.not_allowed ++;
-        }}}
-
+    if (this.users != null && this.users.length != 0) {
+      let i = this.authService.u_i;
+      if(this.users[i].roles.includes(2)){
+        if (url == "/logged_in")
+          this.router.parseUrl('/products');
+        this.not_allowed ++;
+      }
+    }
       if(this.not_allowed == 0) {
           alert("You cannot have access to this page!")
           return this.router.parseUrl('/logged_in');

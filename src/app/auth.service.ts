@@ -12,52 +12,27 @@ export class AuthService {
   users:any = [];
   userID:any;
   user_name:any;
+  u_i:any;
   constructor(private u_service: RegisterService,private router: Router) {
     this.users = this.u_service.GetAllData();
   }
   // isUserLoggedIn: string = "false";
 
   login(userName: string, passWord: string) {
-
     this.users = this.u_service.GetAllData();
-    for (let i = 0; i < this.users.length; i++) {
-      let obj: any;
-      obj = this.users[i]
-      if (obj != undefined){
-          if (userName == obj.username && passWord == obj.password && obj.isApproved ) {
-            // alert("yeeeyyy");
-          // this.isUserLoggedIn = "true";
-          // this.userID = obj.user_id;
-            this.user_name = obj.username;
-          this.u_service.SetData(obj.user_id,obj.username,obj.password,obj.roles,obj.isApproved,"true")
-
-            this.router.navigate(['/logged_in']);
+    if (this.users != null && this.users.length != 0) {
+      for (let i = 0; i < this.users.length; i++) {
+        if (userName == this.users[i].username && passWord == this.users[i].password && this.users[i].isApproved) {
+          this.user_name = this.users[i].username;
+          this.u_i = i;
+          this.users[i].isLoggedIn = "true";
+          this.u_service.UpdateData(i, this.users[i]);
+          this.router.navigate(['/logged_in']);
         }
-        // else if(userName == obj.username && passWord == obj.password && obj.isApproved == true && obj.isLoggedIn == true){
-        //   alert("you already logged in!")
-        //   this.router.navigate(['/admin_page'])
-        // }
+      }
     }
-    }
-
-    // this.users.forEach((e:any)=> {
-    //     if (userName == e.username && passWord == e.password && e.isApproved == true)
-    //     {
-    //       alert(e.user_id)
-    //       this.isUserLoggedIn = "true";
-    //       this.userID = e.user_id;
-    //       localStorage.setItem('isUserLoggedIn'+ e.user_id, this.isUserLoggedIn);
-    //     }
-    //   });
-
-    // return of(this.isUserLoggedIn =="true").pipe(
-    //   delay(1000),
-    //   tap(val => {
-    //     alert("Is User Authentication is successful: " + val);
-    //   })
-    // );
-
   }
+
 
   logout(): void {
     for (let i = 0; i < this.users.length; i++) {

@@ -29,13 +29,17 @@ export class RegisterComponent implements OnInit {
     this.passWord = data.passWord;
     // this.isBuyer = data.buyer_check;
     // this.isSeller = data.seller_check;
-    var max_index=0;
-    for(let i=1; i<=localStorage.length;i++){
-      if(this.u_service.GetData(i))
-        max_index = i;
+    let users = this.u_service.GetAllData();
+    if(users != null)
+    {
+      if(users.length == 0)
+        this.u_service.SetData(1, this.userName, this.passWord,[1,2],true,"false");
+      else
+        this.u_service.SetData(users[users.length - 1].user_id + 1, this.userName, this.passWord,[],false,"false");
     }
-    max_index == 0? this.u_service.SetData(max_index+1, this.userName, this.passWord,[1,2],true,"false"):
-      this.u_service.SetData(max_index+1, this.userName, this.passWord,[],false,"false")
-    setTimeout(()=>{ this.router.navigate(['/login'])}, 1000);
+    else{
+      this.u_service.SetData(1, this.userName, this.passWord,[1,2],true,"false");
+    }
   }
+
 }

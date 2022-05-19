@@ -26,21 +26,18 @@ export class ControlUsersGuard implements CanActivate {
 
   checkLogin(url: string): true | UrlTree {
     this.users = this.u_service.GetAllData();
-    for (let i = 0; i < this.users.length; i++) {
-      let obj: any;
-      obj = this.users[i];
-      if (obj != undefined) {
-        if (obj.user_id == 1 && obj.isLoggedIn == "true") {
-          if (url == "/logged_in")
-            this.router.parseUrl('/admin_page');
-          this.not_allowed ++;
-        }}}
-
+    if (this.users != null && this.users.length != 0) {
+      let i = this.authService.u_i;
+      if(this.users[i].user_id == 1){
+        if (url == "/logged_in")
+          this.router.parseUrl('/admin_page');
+        this.not_allowed ++;
+      }
+    }
     if(this.not_allowed == 0) {
       alert("You cannot have access to this page!")
       return this.router.parseUrl('/logged_in');
     }
-
     return true;
 
   }

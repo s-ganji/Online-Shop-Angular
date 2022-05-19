@@ -8,27 +8,42 @@ export class User{
 export class RegisterService{
 
   SetData(userID:any, username: any, pass:any, role:any=[], isapp:any, isLog:any){
+    let user1 = new User(userID,username,pass,role,isapp,isLog);
+    let users:any;
+    if (localStorage.getItem("users") == null){
+      users = new Array();
+    }
+    else {
+      users = JSON.parse(<string>localStorage.getItem("users"));
+    }
+    users.push(user1);
+    let jsonData = JSON.stringify(users);
+    localStorage.setItem('users', jsonData);
 
-    let product1 = new User(userID,username,pass,role,isapp,isLog);
-    let jsonData = JSON.stringify(product1);
-    let num:any;
-    num = userID;
-    localStorage.setItem('User_'+num, jsonData);
   }
 
-  GetData(i:any):User{
+  GetAllData():any[]{
+    let users: any=[];
+    users = JSON.parse(<string>localStorage.getItem("users"));
+    return users;
+  }
+
+  GetData(i:any):any{
     let user: any;
-    user = JSON.parse(<string>localStorage.getItem("User_"+i));
+    user = JSON.parse(<string>localStorage.getItem("users"));
+    if (user != null)
+      user = JSON.parse(<string>localStorage.getItem("users"))[i];
     return user;
   }
 
-  GetAllData():User[]{
-    let users: any=[];
-    for(let i=1; i<=localStorage.length;i++){
-      users[i] = JSON.parse(<string>localStorage.getItem("User_"+i));
-    }
-
-    return users;
+  UpdateData(i:any, uNew:any){
+    let user:any;
+    user = this.GetAllData();
+    user[i] = uNew;
+    let jsonData = JSON.stringify(user);
+    localStorage.setItem("users",jsonData);
+    return "The row is updated!"
   }
+
 
 }

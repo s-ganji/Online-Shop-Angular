@@ -51,13 +51,12 @@ export class SellerService{
 
   getID(username:any):number{
     let sellers = this.GetAllData();
-    for(let i=0; i<sellers.length;i++){
-      if(sellers[i] != undefined && sellers[i].name == username)
-        return sellers[i].id;
+    if(sellers != null){
+      for(let i=0; i<sellers.length;i++){
+        if(sellers[i].name == username)
+          return sellers[i].id;
+      }
     }
     return 0;
-
   }
-
-
 }

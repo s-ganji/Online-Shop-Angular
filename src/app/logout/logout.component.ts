@@ -12,24 +12,16 @@ export class LogoutComponent implements OnInit {
   users:any=[];
   constructor(private authService : AuthService, private router: Router, public u_service: RegisterService) {
   this.users = this.u_service.GetAllData();
-    for (let i = 0; i < this.users.length; i++) {
-      let obj: any;
-      obj = this.users[i];
-      if (obj != undefined) {
-        if (obj.isLoggedIn == "true") {
-          this.u_service.SetData(obj.user_id, obj.username, obj.password, obj.roles, obj.isApproved, "false");
-        }
-      }
-    }
-    // this.authService.logout();
-    this.router.navigate(['/main_page']);
+    if (this.users != null && this.users.length != 0) {
+      let i = authService.u_i;
+      this.users[i].isLoggedIn = "false";
+      this.u_service.UpdateData(i,this.users[i]);
+      this.router.navigate(['/main_page']);
 
+    }
   }
 
   ngOnInit(): void {
-
-
-
   }
 
 }
